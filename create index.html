@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerPath - Discover Your Future</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e9ecef;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background-color: #4f46e5;
+            transition: width 0.3s ease;
+        }
+        
+        .avatar-ring {
+            border: 3px solid #4f46e5;
+        }
+        
+        .streak-flame {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        .content-section {
+            display: none;
+        }
+        
+        .active-section {
+            display: block;
+        }
+        
+        .active-tab {
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center">
+                    <i class="fas fa-briefcase text-white text-xl"></i>
+                </div>
+                <span class="text-xl font-bold text-indigo-600">CareerPath</span>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-full avatar-ring flex items-center justify-center bg-white">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="w-8 h-8 rounded-full">
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-bolt text-white text-xs streak-flame"></i>
+                    </div>
+                </div>
+                <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                    <i class="fas fa-cog text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 pb-20">
+        <!-- Home Section (Default) -->
+        <div id="home-section" class="content-section active-section">
+            <!-- User Progress -->
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-lg font-semibold text-gray-800">Your Career Journey</h2>
+                    <span class="text-sm font-medium text-indigo-600">25% complete</span>
+                </div>
+                <div class="progress-bar mb-4">
+                    <div class="progress-fill" style="width: 25%;"></div>
+                </div>
+                <div class="flex justify-between text-sm text-gray-500">
+                    <span>Profile</span>
+                    <span>Assessments</span>
+                    <span>Matches</span>
+                    <span>Applications</span>
+                </div>
+            </div>
+
+            <!-- Daily Goal -->
+            <div id="daily-goal-btn" class="bg-indigo-600 rounded-xl shadow-sm p-5 mb-6 text-white cursor-pointer">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-lg font-semibold">Daily Goal</h2>
+                    <div class="flex items-center space-x-1">
+                        <span class="text-sm font-medium">3/5 completed</span>
+                        <i class="fas fa-fire text-yellow-300"></i>
+                    </div>
+                </div>
+                <div class="progress-bar bg-indigo-500 mb-4">
+                    <div class="progress-fill bg-yellow-400" style="width: 60%;"></div>
+                </div>
+                <p class="text-sm mb-4">Complete 2 more activities today to keep your streak alive!</p>
+                <div class="grid grid-cols-5 gap-2">
+                    <div class="h-2 rounded bg-yellow-400"></div>
+                    <div class="h-2 rounded bg-yellow-400"></div>
+                    <div class="h-2 rounded bg-yellow-400"></div>
+                    <div class="h-2 rounded bg-white opacity-30"></div>
+                    <div class="h-2 rounded bg-white opacity-30"></div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div id="assessments-btn" class="bg-white rounded-xl shadow-sm p-5 flex flex-col items-center justify-center transition-all card-hover cursor-pointer">
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-3">
+                        <i class="fas fa-clipboard-check text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800">Take Assessment</h3>
+                    <p class="text-xs text-gray-500 text-center mt-1">Discover your strengths</p>
+                </div>
+                <div id="matches-btn" class="bg-white rounded-xl shadow-sm p-5 flex flex-col items-center justify-center transition-all card-hover cursor-pointer">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-3">
+                        <i class="fas fa-handshake text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800">View Matches</h3>
+                    <p class="text-xs text-gray-500 text-center mt-1">Find your dream company</p>
+                </div>
+            </div>
+
+            <!-- Learning Path -->
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-800">Your Career Path</h2>
+                    <div id="learning-path-btn" class="text-sm font-medium text-indigo-600 cursor-pointer">See all</div>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Career Path Item 1 -->
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-laptop-code text-green-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Technology Track</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>3/8 lessons</span>
+                                <span class="mx-2">•</span>
+                                <span>Software Development</span>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                            <i class="fas fa-chevron-right text-gray-500 text-sm"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Career Path Item 2 -->
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-line text-blue-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Business Track</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>1/6 lessons</span>
+                                <span class="mx-2">•</span>
+                                <span>Marketing & Sales</span>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                            <i class="fas fa-chevron-right text-gray-500 text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Companies -->
+            <div class="bg-white rounded-xl shadow-sm p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-800">Recommended Companies</h2>
+                    <div id="companies-btn" class="text-sm font-medium text-indigo-600 cursor-pointer">See all</div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Company 1 -->
+                    <div class="bg-gray-50 rounded-lg p-3 transition-all card-hover cursor-pointer">
+                        <div class="w-full aspect-square bg-white rounded flex items-center justify-center mb-2">
+                            <i class="fas fa-building text-3xl text-indigo-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm">TechCorp</h3>
+                        <p class="text-xs text-gray-500">Software Development</p>
+                        <div class="flex items-center mt-2">
+                            <div class="flex -space-x-2">
+                                <img src="https://randomuser.me/api/portraits/women/12.jpg" class="w-5 h-5 rounded-full border border-white">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-5 h-5 rounded-full border border-white">
+                                <img src="https://randomuser.me/api/portraits/women/45.jpg" class="w-5 h-5 rounded-full border border-white">
+                            </div>
+                            <span class="text-xs text-gray-500 ml-2">85% match</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Company 2 -->
+                    <div class="bg-gray-50 rounded-lg p-3 transition-all card-hover cursor-pointer">
+                        <div class="w-full aspect-square bg-white rounded flex items-center justify-center mb-2">
+                            <i class="fas fa-paint-brush text-3xl text-pink-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm">DesignHub</h3>
+                        <p class="text-xs text-gray-500">Creative Design</p>
+                        <div class="flex items-center mt-2">
+                            <div class="flex -space-x-2">
+                                <img src="https://randomuser.me/api/portraits/women/22.jpg" class="w-5 h-5 rounded-full border border-white">
+                                <img src="https://randomuser.me/api/portraits/men/55.jpg" class="w-5 h-5 rounded-full border border-white">
+                            </div>
+                            <span class="text-xs text-gray-500 ml-2">78% match</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Goal Section -->
+        <div id="daily-goal-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                <div class="flex items-center mb-4">
+                    <button class="back-btn mr-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-arrow-left text-gray-600"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold text-gray-800">Your Daily Goals</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Goal 1 -->
+                    <div class="flex items-center p-3 rounded-lg bg-indigo-50">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-check text-indigo-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Complete Personality Test</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>Completed today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Goal 2 -->
+                    <div class="flex items-center p-3 rounded-lg bg-indigo-50">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-check text-indigo-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Skills Assessment</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>Completed today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Goal 3 -->
+                    <div class="flex items-center p-3 rounded-lg bg-indigo-50">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-check text-indigo-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Review 3 companies</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>Completed today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Goal 4 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                            <i class="far fa-circle text-gray-400"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Career Exploration</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>Explore 2 career paths</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Goal 5 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                            <i class="far fa-circle text-gray-400"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Save 1 apprenticeship</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>Save to your favorites</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Your Progress</h2>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-gray-700">Current Streak</span>
+                    <span class="text-sm font-medium text-indigo-600">7 days</span>
+                </div>
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm font-medium text-gray-700">Total XP</span>
+                    <span class="text-sm font-medium text-indigo-600">1,250 points</span>
+                </div>
+                <div class="progress-bar mb-2">
+                    <div class="progress-fill" style="width: 60%;"></div>
+                </div>
+                <p class="text-xs text-gray-500 text-center">Complete today's goals to earn 50 XP</p>
+            </div>
+        </div>
+
+        <!-- Assessments Section -->
+        <div id="assessments-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                <div class="flex items-center mb-4">
+                    <button class="back-btn mr-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-arrow-left text-gray-600"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold text-gray-800">Your Assessments</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Assessment 1 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-brain text-purple-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Personality Test</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>15 min • Completed</span>
+                            </div>
+                        </div>
+                        <div class="text-sm font-medium text-purple-600">View results</div>
+                    </div>
+                    
+                    <!-- Assessment 2 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-lightbulb text-blue-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Skills Assessment</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>20 min • Completed</span>
+                            </div>
+                        </div>
+                        <div class="text-sm font-medium text-blue-600">View results</div>
+                    </div>
+                    
+                    <!-- Assessment 3 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-heart text-green-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Interest Inventory</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>10 min • Pending</span>
+                            </div>
+                        </div>
+                        <button class="px-3 py-1 bg-green-100 text-green-600 text-sm font-medium rounded-full">Start</button>
+                    </div>
+                    
+                    <!-- Assessment 4 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-star text-yellow-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">Values Assessment</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>15 min • Pending</span>
+                            </div>
+                        </div>
+                        <button class="px-3 py-1 bg-yellow-100 text-yellow-600 text-sm font-medium rounded-full">Start</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-5">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">New Assessments</h2>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- New Assessment 1 -->
+                    <div class="bg-indigo-50 rounded-lg p-3">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mb-2 mx-auto">
+                            <i class="fas fa-users text-indigo-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm text-center">Teamwork</h3>
+                        <p class="text-xs text-gray-500 text-center">Discover your collaboration style</p>
+                    </div>
+                    
+                    <!-- New Assessment 2 -->
+                    <div class="bg-blue-50 rounded-lg p-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-2 mx-auto">
+                            <i class="fas fa-chart-bar text-blue-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm text-center">Analytical</h3>
+                        <p class="text-xs text-gray-500 text-center">Test your problem-solving skills</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matches Section -->
+        <div id="matches-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                <div class="flex items-center mb-4">
+                    <button class="back-btn mr-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-arrow-left text-gray-600"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold text-gray-800">Your Matches</h2>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm font-medium text-gray-700">Match Score</span>
+                        <span class="text-sm font-medium text-indigo-600">85% average</span>
+                    </div>
+                    <div class="progress-bar mb-4">
+                        <div class="progress-fill" style="width: 85%;"></div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Match 1 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-building text-indigo-600 text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">TechCorp</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>Software Development • 92% match</span>
+                            </div>
+                        </div>
+                        <div class="text-sm font-medium text-indigo-600">View</div>
+                    </div>
+                    
+                    <!-- Match 2 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-laptop-code text-blue-600 text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">DevSolutions</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>Web Development • 88% match</span>
+                            </div>
+                        </div>
+                        <div class="text-sm font-medium text-blue-600">View</div>
+                    </div>
+                    
+                    <!-- Match 3 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-paint-brush text-green-600 text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">DesignHub</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>UI/UX Design • 85% match</span>
+                            </div>
+                        </div>
+                        <div class="text-sm font-medium text-green-600">View</div>
+                    </div>
+                    
+                    <!-- Match 4 -->
+                    <div class="flex items-center p-3 rounded-lg bg-white border border-gray-200">
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-line text-yellow-600 text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800">MarketGrow</h3>
+                            <div class="flex items-center text-xs text-gray-500 mt-1">
+                                <span>Digital Marketing • 82% match</span>
+                            </div>
+                        </div>
+                        <div class="text-sm font-medium text-yellow-600">View</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-5">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Improve Your Matches</h2>
+                <div class="space-y-3">
+                    <div class="flex items-center p-3 rounded-lg bg-gray-50">
+                        <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-plus text-indigo-600 text-sm"></i>
+                        </div>
+                        <p class="text-sm text-gray-700">Complete your Interest Inventory</p>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg bg-gray-50">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-plus text-blue-600 text-sm"></i>
+                        </div>
+                        <p class="text-sm text-gray-700">Add more skills to your profile</p>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg bg-gray-50">
+                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-plus text-green-600 text-sm"></i>
+                        </div>
+                        <p class="text-sm text-gray-700">Explore more career paths</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Path Section -->
+        <div id="learning-path-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                <div class="flex items-center mb-4">
+                    <button class="back-btn mr-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-arrow-left text-gray-600"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold text-gray-800">Your Career Paths</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Path 1 -->
+                    <div class="p-4 rounded-lg bg-gradient-to-r from-purple-50 to-indigo-50">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-laptop-code text-purple-600"></i>
+                            </div>
+                            <h3 class="font-medium text-gray-800">Technology Track</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Explore careers in software development, data science, and IT infrastructure.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <span class="text-xs font-medium text-gray-500 mr-2">Progress:</span>
+                                <span class="text-xs font-medium text-purple-600">3/8 lessons</span>
+                            </div>
+                            <div class="w-24 h-2 rounded-full bg-gray-200">
+                                <div class="h-full rounded-full bg-purple-600" style="width: 37.5%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Path 2 -->
+                    <div class="p-4 rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-chart-line text-blue-600"></i>
+                            </div>
+                            <h3 class="font-medium text-gray-800">Business Track</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Learn about careers in marketing, finance, management, and entrepreneurship.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <span class="text-xs font-medium text-gray-500 mr-2">Progress:</span>
+                                <span class="text-xs font-medium text-blue-600">1/6 lessons</span>
+                            </div>
+                            <div class="w-24 h-2 rounded-full bg-gray-200">
+                                <div class="h-full rounded-full bg-blue-600" style="width: 16.6%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Path 3 -->
+                    <div class="p-4 rounded-lg bg-gradient-to-r from-green-50 to-teal-50">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-heartbeat text-green-600"></i>
+                            </div>
+                            <h3 class="font-medium text-gray-800">Healthcare Track</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Discover careers in medicine, nursing, therapy, and healthcare administration.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <span class="text-xs font-medium text-gray-500 mr-2">Progress:</span>
+                                <span class="text-xs font-medium text-green-600">0/5 lessons</span>
+                            </div>
+                            <div class="w-24 h-2 rounded-full bg-gray-200">
+                                <div class="h-full rounded-full bg-green-600" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-5">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Explore More Paths</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="p-3 rounded-lg bg-gray-50">
+                        <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mb-2 mx-auto">
+                            <i class="fas fa-paint-brush text-yellow-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm text-center">Creative Arts</h3>
+                    </div>
+                    <div class="p-3 rounded-lg bg-gray-50">
+                        <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mb-2 mx-auto">
+                            <i class="fas fa-utensils text-red-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm text-center">Culinary</h3>
+                    </div>
+                    <div class="p-3 rounded-lg bg-gray-50">
+                        <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mb-2 mx-auto">
+                            <i class="fas fa-gavel text-indigo-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm text-center">Legal</h3>
+                    </div>
+                    <div class="p-3 rounded-lg bg-gray-50">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mb-2 mx-auto">
+                            <i class="fas fa-leaf text-blue-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 text-sm text-center">Environmental</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Companies Section -->
+        <div id="companies-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                <div class="flex items-center mb-4">
+                    <button class="back-btn mr-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-arrow-left text-gray-600"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold text-gray-800">Recommended Companies</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-4">
+                    <!-- Company 1 -->
+                    <div class="p-4 rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-building text-indigo-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800">TechCorp</h3>
+                                <p class="text-xs text-gray-500">Software Development • 50+ employees</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <span class="text-sm font-medium text-gray-700">Match Score:</span>
+                                <span class="text-sm font-medium text-indigo-600 ml-1">92%</span>
+                            </div>
+                            <div class="text-xs px-2 py-1 bg-indigo-100 text-indigo-600 rounded-full">5 openings</div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Leading software company specializing in enterprise solutions and AI applications.</p>
+                        <button class="w-full py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg">View Opportunities</button>
+                    </div>
+                    
+                    <!-- Company 2 -->
+                    <div class="p-4 rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-laptop-code text-blue-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800">DevSolutions</h3>
+                                <p class="text-xs text-gray-500">Web Development • 20-49 employees</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <span class="text-sm font-medium text-gray-700">Match Score:</span>
+                                <span class="text-sm font-medium text-blue-600 ml-1">88%</span>
+                            </div>
+                            <div class="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-full">3 openings</div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Innovative web development agency creating custom solutions for clients worldwide.</p>
+                        <button class="w-full py-2 bg-blue-600 text-white text-sm font-medium rounded-lg">View Opportunities</button>
+                    </div>
+                    
+                    <!-- Company 3 -->
+                    <div class="p-4 rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-paint-brush text-green-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800">DesignHub</h3>
+                                <p class="text-xs text-gray-500">UI/UX Design • 10-19 employees</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <span class="text-sm font-medium text-gray-700">Match Score:</span>
+                                <span class="text-sm font-medium text-green-600 ml-1">85%</span>
+                            </div>
+                            <div class="text-xs px-2 py-1 bg-green-100 text-green-600 rounded-full">2 openings</div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Creative design studio focused on user experience and digital product design.</p>
+                        <button class="w-full py-2 bg-green-600 text-white text-sm font-medium rounded-lg">View Opportunities</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-5">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Search Companies</h2>
+                <div class="relative mb-4">
+                    <input type="text" placeholder="Search by name, industry, location..." class="w-full py-2 px-4 pr-10 bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-100">
+                    <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full">Technology</span>
+                    <span class="text-xs px-3 py-1 bg-blue-100 text-blue-600 rounded-full">Business</span>
+                    <span class="text-xs px-3 py-1 bg-green-100 text-green-600 rounded-full">Healthcare</span>
+                    <span class="text-xs px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full">Creative</span>
+                    <span class="text-xs px-3 py-1 bg-purple-100 text-purple-600 rounded-full">Engineering</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around">
+                <button id="home-tab" class="py-3 px-4 flex flex-col items-center text-indigo-600 active-tab">
+                    <i class="fas fa-home text-lg"></i>
+                    <span class="text-xs mt-1">Home</span>
+                </button>
+                <button id="learn-tab" class="py-3 px-4 flex flex-col items-center text-gray-500">
+                    <i class="fas fa-graduation-cap text-lg"></i>
+                    <span class="text-xs mt-1">Learn</span>
+                </button>
+                <button id="assess-tab" class="py-3 px-4 flex flex-col items-center text-gray-500">
+                    <i class="fas fa-clipboard-list text-lg"></i>
+                    <span class="text-xs mt-1">Assess</span>
+                </button>
+                <button id="matches-tab" class="py-3 px-4 flex flex-col items-center text-gray-500">
+                    <i class="fas fa-briefcase text-lg"></i>
+                    <span class="text-xs mt-1">Matches</span>
+                </button>
+                <button id="profile-tab" class="py-3 px-4 flex flex-col items-center text-gray-500">
+                    <i class="fas fa-user text-lg"></i>
+                    <span class="text-xs mt-1">Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all sections and buttons
+            const sections = {
+                'home': document.getElementById('home-section'),
+                'daily-goal': document.getElementById('daily-goal-section'),
+                'assessments': document.getElementById('assessments-section'),
+                'matches': document.getElementById('matches-section'),
+                'learning-path': document.getElementById('learning-path-section'),
+                'companies': document.getElementById('companies-section')
+            };
+            
+            const buttons = {
+                'home-tab': document.getElementById('home-tab'),
+                'learn-tab': document.getElementById('learn-tab'),
+                'assess-tab': document.getElementById('assess-tab'),
+                'matches-tab': document.getElementById('matches-tab'),
+                'profile-tab': document.getElementById('profile-tab'),
+                'daily-goal-btn': document.getElementById('daily-goal-btn'),
+                'assessments-btn': document.getElementById('assessments-btn'),
+                'matches-btn': document.getElementById('matches-btn'),
+                'learning-path-btn': document.getElementById('learning-path-btn'),
+                'companies-btn': document.getElementById('companies-btn')
+            };
+            
+            const backButtons = document.querySelectorAll('.back-btn');
+            
+            // Function to show a section and hide others
+            function showSection(sectionId) {
+                // Hide all sections
+                Object.values(sections).forEach(section => {
+                    section.classList.remove('active-section');
+                });
+                
+                // Show the selected section
+                if (sections[sectionId]) {
+                    sections[sectionId].classList.add('active-section');
+                }
+                
+                // Update tab colors
+                Object.values(buttons).forEach(button => {
+                    if (button.id.includes('tab')) {
+                        button.classList.remove('text-indigo-600', 'active-tab');
+                        button.classList.add('text-gray-500');
+                    }
+                });
+                
+                // Set the active tab based on the section
+                let activeTabId = '';
+                switch(sectionId) {
+                    case 'home':
+                    case 'daily-goal':
+                    case 'learning-path':
+                    case 'companies':
+                        activeTabId = 'home-tab';
+                        break;
+                    case 'assessments':
+                        activeTabId = 'assess-tab';
+                        break;
+                    case 'matches':
+                        activeTabId = 'matches-tab';
+                        break;
+                }
+                
+                if (buttons[activeTabId]) {
+                    buttons[activeTabId].classList.remove('text-gray-500');
+                    buttons[activeTabId].classList.add('text-indigo-600', 'active-tab');
+                }
+            }
+            
+            // Add click event listeners to all buttons
+            buttons['home-tab'].addEventListener('click', () => showSection('home'));
+            buttons['learn-tab'].addEventListener('click', () => showSection('learning-path'));
+            buttons['assess-tab'].addEventListener('click', () => showSection('assessments'));
+            buttons['matches-tab'].addEventListener('click', () => showSection('matches'));
+            buttons['profile-tab'].addEventListener('click', () => showSection('home')); // For demo, goes to home
+            
+            buttons['daily-goal-btn'].addEventListener('click', () => showSection('daily-goal'));
+            buttons['assessments-btn'].addEventListener('click', () => showSection('assessments'));
+            buttons['matches-btn'].addEventListener('click', () => showSection('matches'));
+            buttons['learning-path-btn'].addEventListener('click', () => showSection('learning-path'));
+            buttons['companies-btn'].addEventListener('click', () => showSection('companies'));
+            
+            // Add click event listeners to back buttons
+            backButtons.forEach(button => {
+                button.addEventListener('click', () => showSection('home'));
+            });
+            
+            // Initialize with home section
+            showSection('home');
+            
+            // Add animation to progress bars on page load
+            setTimeout(() => {
+                document.querySelectorAll('.progress-fill').forEach(bar => {
+                    bar.style.transition = 'width 1s ease';
+                });
+            }, 300);
+        });
+    </script>
+</body>
+</html>
